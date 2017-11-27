@@ -5,7 +5,6 @@
 extern "C" {
 #endif
 	typedef void* Triple; 
-	Triple tripleInit();
 	const char* tripleGetSubject(Triple);
 	const char* tripleGetObject(Triple);
 	const char* tripleGetPredicate(Triple);

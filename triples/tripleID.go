@@ -8,18 +8,18 @@ type TripleID struct {
 	triple C.TripleID_
 }
 
-func Free(t TripleID) {
+func (t TripleID) Free() {
 	C.tripleIdFree(t.triple)
 }
 
-func getIdSubject(t TripleID) uint {
+func (t TripleID) getSubject() uint {
 	return uint(C.tripleIdGetSubject(t.triple))
 }
 
-func getIdObject(t TripleID) uint {
+func (t TripleID) getObject() uint {
 	return uint(C.tripleIdGetObject(t.triple))
 }
 
-func getIdPredicate(t TripleID) uint {
+func (t TripleID) getPredicate() uint {
 	return uint(C.tripleIdGetPredicate(t.triple))
 }

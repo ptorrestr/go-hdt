@@ -1,14 +1,15 @@
 #ifndef TRIPLE_H
 #define TRIPLE_H
-
+#include "tripleString.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
-	typedef void* Triple; 
-	const char* tripleGetSubject(Triple);
-	const char* tripleGetObject(Triple);
-	const char* tripleGetPredicate(Triple);
-	void tripleFree(Triple);
+	typedef void* _Triple; 
+	_Triple tripleInit(_TripleString);
+	const char* tripleGetSubject(_Triple);
+	const char* tripleGetObject(_Triple);
+	const char* tripleGetPredicate(_Triple);
+	void tripleFree(_Triple);
 #ifdef __cplusplus
 }
 #endif

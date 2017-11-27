@@ -1,22 +1,22 @@
 #include "tripleID.hpp"
 #include "tripleID.h"
 
-unsigned int tripleIdGetSubject(TripleID_ t) {
+unsigned int tripleIdGetSubject(_TripleID t) {
 	CxxTripleID *tt = (CxxTripleID*)t;
 	return tt -> get_subject();
 }
 
-unsigned int tripleIdGetObject(TripleID_ t) {
+unsigned int tripleIdGetObject(_TripleID t) {
 	CxxTripleID *tt = (CxxTripleID*)t;
 	return tt -> get_object();
 }
 
-unsigned int tripleIdGetPredicate(TripleID_ t) {
+unsigned int tripleIdGetPredicate(_TripleID t) {
 	CxxTripleID *tt = (CxxTripleID*)t;
 	return tt -> get_predicate();
 }
 
-void tripleIdFree(TripleID_ t) {
+void tripleIdFree(_TripleID t) {
 	CxxTripleID *tt = (CxxTripleID*)t;
 	delete tt;
 }

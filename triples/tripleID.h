@@ -3,11 +3,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-	typedef void* TripleID_; //TripleID already exists on hdt
-	unsigned int tripleIdGetSubject(TripleID_);
-	unsigned int tripleIdGetObject(TripleID_);
-	unsigned int tripleIdGetPredicate(TripleID_);
-	void tripleIdFree(TripleID_);
+	typedef void* _TripleID;
+	unsigned int tripleIdGetSubject(_TripleID);
+	unsigned int tripleIdGetObject(_TripleID);
+	unsigned int tripleIdGetPredicate(_TripleID);
+	void tripleIdFree(_TripleID);
 #ifdef __cplusplus
 }
 #endif

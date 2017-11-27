@@ -4,6 +4,7 @@ package triples
 // #include "triple.h"
 // #include "tripleID.h"
 // #include "tripleIterator.h"
+// #include "tripleIDIterator.h"
 import "C"
 
 /* Define Triple*/
@@ -60,5 +61,20 @@ func (ti TripleIterator) Free() {
 func (ti TripleIterator) Next() Triple {
 	var ret Triple
 	ret.triple = C.tripleIteratorNext(ti.iter)
+	return ret
+}
+
+/* Define triple ID iterator*/
+type TripleIDIterator struct {
+	iter C._TripleIDIterator
+}
+
+func (ti TripleIDIterator) Free() {
+	C.tripleIDIteratorFree(ti.iter)
+}
+
+func (ti TripleIDIterator) Next() TripleID {
+	var ret TripleID
+	ret.triple = C.tripleIDIteratorNext(ti.iter)
 	return ret
 }

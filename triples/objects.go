@@ -80,6 +80,15 @@ func (ti TripleIDIterator) Next() TripleID {
 	return ret
 }
 
+/* Define triple role */
+type TripleRole uint
+
+const (
+	subject TripleRole = iota
+	predicate
+	object
+)
+
 /* Define connector*/
 type HDTConnector struct {
 	conn C._Connector
@@ -113,10 +122,10 @@ func (c HDTConnector) SearchID2(id1 uint, id2 uint, id3 uint) TripleIDIterator {
 	return ret
 }
 
-func (c HDTConnector) IdToUri(id uint, t uint) string {
+func (c HDTConnector) IdToUri(id uint, t TripleRole) string {
 	return C.GoString(C.connectorIdToUri(c.conn, C.uint(id), C.uint(t)))
 }
 
-func (c HDTConnector) UriToId(uri string, t uint) uint {
+func (c HDTConnector) UriToId(uri string, t TripleRole) uint {
 	return uint(C.connectorUriToId(c.conn, C.CString(uri), C.uint(t)))
 }

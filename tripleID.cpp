@@ -19,7 +19,12 @@ CxxTripleID::~CxxTripleID()
 unsigned int
 CxxTripleID::get_subject() const
 {
-	return triple -> getSubject();
+
+	if ( triple ) 
+	{
+		return triple -> getSubject();
+	}
+	return 0;
 }
 
 unsigned int

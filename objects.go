@@ -127,6 +127,12 @@ func (ti TripleIDIterator) GetAll() []TripleID {
 	return ret
 }
 
+func (ti TripleIDIterator) Next() TripleID {
+	var ret TripleID
+	ret.triple = C.tripleIDIteratorNext(ti.iter)
+	return ret
+}
+
 /* Define triple role */
 type TripleRole uint
 

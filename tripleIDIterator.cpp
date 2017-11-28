@@ -18,7 +18,7 @@ CxxTripleIDIterator::next()
 {
 	if ( iter -> hasNext() )
 	{
-		return new CxxTripleID(iter -> next() );
+		return new CxxTripleID( iter -> next() );
 	}
 	return nullptr;
 }

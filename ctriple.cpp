@@ -1,13 +1,6 @@
 #include "triple.hpp"
 #include "triple.h"
 
-_Triple tripleInt(_TripleString ts)
-{
-	TripleString* ts2 = (TripleString*)ts;
-	CxxTriple *t = new CxxTriple(ts2);
-	return (void*)t;
-}
-
 const char* tripleGetSubject(_Triple t) {
 	CxxTriple *tt = (CxxTriple*)t;
 	return tt -> get_subject().c_str();

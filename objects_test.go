@@ -35,6 +35,7 @@ func Before() (err error) {
 	if err != nil {
 		return err
 	}
+	hdtMap = OpenHDT("./test.hdt")
 	return nil
 }
 
@@ -43,8 +44,11 @@ func After() (err error) {
 	if err != nil {
 		return err
 	}*/
+	hdtMap.Free()
 	return nil
 }
+
+var hdtMap HDTConnector
 
 func TestMain(m *testing.M) {
 	err := Before()
@@ -58,17 +62,48 @@ func TestMain(m *testing.M) {
 }
 
 /* TESTS */
-
 func TestShouldIterateHDTFileGettingUrls(t *testing.T) {
-	hdtMap := OpenHDT("./test.hdt")
 	it := hdtMap.Search("", "", "")
 	sl := it.Get(10)
-	assert.Equal(t, len(sl), 10, "Get 10 elements from hdt")
+	assert.Equal(t, 10, len(sl))
+	it.Free()
+}
+
+func TestShouldObtainStringFromAUriIterator(t *testing.T) {
+	it := hdtMap.Search("", "", "")
+	sl := it.Get(1)
+	assert.IsType(t, string(""), sl[0].getSubject())
+	assert.IsType(t, string(""), sl[0].getPredicate())
+	assert.IsType(t, string(""), sl[0].getObject())
+	assert.NotZero(t, len(sl[0].getSubject()))
+	assert.NotZero(t, len(sl[0].getPredicate()))
+	assert.NotZero(t, len(sl[0].getObject()))
+	it.Free()
+}
+
+func TestShouldIterateHDTFileGettingIds(t *testing.T) {
+	it := hdtMap.SearchID1("", "", "") //This is not working properly.
+	sl := it.Get(10)
+	assert.Equal(t, 10, len(sl))
+	it.Free()
+}
+
+func TestShouldIterateHDTFileGettingIds2(t *testing.T) {
+	it := hdtMap.SearchID2(0, 0, 0)
+	sl := it.Get(10)
+	assert.Equal(t, 10, len(sl))
+	assert.IsType(t, uint(1), sl[0].getSubject())
+	assert.IsType(t, uint(1), sl[0].getPredicate())
+	assert.IsType(t, uint(1), sl[0].getObject())
+	assert.NotZero(t, sl[0].getSubject())
+	assert.NotZero(t, sl[0].getPredicate())
+	assert.NotZero(t, sl[0].getObject())
+	it.Free()
 }
 
 func TestShouldIterate(t *testing.T) {
-	hdtMap := OpenHDT("./test.hdt")
 	it := hdtMap.Search("", "", "")
 	sl := it.GetAll()
 	assert.Equal(t, len(sl), 100656, "Get everything from hdt")
+	it.Free()
 }

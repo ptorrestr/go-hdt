@@ -1,4 +1,4 @@
-package triples
+package hdt
 
 // #cgo pkg-config: hdt
 // #include "triple.h"

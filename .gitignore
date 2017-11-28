@@ -1,5 +1,9 @@
 #vim
 *.swp
 
+# hdt files
+*.hdt
+*.hdt.index.v1-1
+
 #mac
 .DS_Store

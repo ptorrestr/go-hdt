@@ -60,5 +60,8 @@ func TestMain(m *testing.M) {
 
 func TestShouldIterateHDTFileGettingUrls(t *testing.T) {
 	hdtMap := OpenHDT("./test.hdt")
-	hdtMap.Search("a", "a", "a").Next()
+	it := hdtMap.Search("", "", "")
+	//it.HasNext()
+	obj := it.Next()
+	log.Info(obj)
 }

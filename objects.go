@@ -7,6 +7,7 @@ package hdt
 // #include "tripleIDIterator.h"
 // #include "connector.h"
 import "C"
+import "fmt"
 
 /* Define Triple*/
 type Triple struct {
@@ -27,6 +28,10 @@ func (t Triple) getObject() string {
 
 func (t Triple) getPredicate() string {
 	return C.GoString(C.tripleGetPredicate(t.triple))
+}
+
+func (t Triple) String() string {
+	return fmt.Sprintf("{%s, %s, %s}", t.getSubject(), t.getPredicate(), t.getObject())
 }
 
 /* define triple ID */
@@ -50,18 +55,33 @@ func (t TripleID) getPredicate() uint {
 	return uint(C.tripleIdGetPredicate(t.triple))
 }
 
+func (t TripleID) String() string {
+	return fmt.Sprintf("{%b, %b, %b}", t.getSubject(), t.getPredicate(), t.getObject())
+}
+
 /* Define triple iterator*/
 type TripleIterator struct {
-	iter C._TripleIterator
+	iter    C._TripleIterator
+	current C._Triple
 }
 
 func (ti TripleIterator) Free() {
 	C.tripleIteratorFree(ti.iter)
 }
 
+func (ti TripleIterator) HasNext() bool {
+	ti.current = C.tripleIteratorNext(ti.iter)
+	if ti.current == nil {
+		return false
+	}
+	return true
+}
+
 func (ti TripleIterator) Next() Triple {
 	var ret Triple
 	ret.triple = C.tripleIteratorNext(ti.iter)
+	/*var ret Triple
+	ret.triple = ti.current*/
 	return ret
 }
 

@@ -5,6 +5,7 @@ package triples
 // #include "tripleID.h"
 // #include "tripleIterator.h"
 // #include "tripleIDIterator.h"
+// #include "connector.h"
 import "C"
 
 /* Define Triple*/
@@ -77,4 +78,45 @@ func (ti TripleIDIterator) Next() TripleID {
 	var ret TripleID
 	ret.triple = C.tripleIDIteratorNext(ti.iter)
 	return ret
+}
+
+/* Define connector*/
+type HDTConnector struct {
+	conn C._Connector
+}
+
+func OpenHDT(file string) HDTConnector {
+	var ret HDTConnector
+	ret.conn = C.connectorInit(C.CString(file))
+	return ret
+}
+
+func (c HDTConnector) Free() {
+	C.connectorFree(c.conn)
+}
+
+func (c HDTConnector) Search(uri1 string, uri2 string, uri3 string) TripleIterator {
+	var ret TripleIterator
+	ret.iter = C.connectorSearch(c.conn, C.CString(uri1), C.CString(uri2), C.CString(uri3))
+	return ret
+}
+
+func (c HDTConnector) SearchID1(uri1 string, uri2 string, uri3 string) TripleIDIterator {
+	var ret TripleIDIterator
+	ret.iter = C.connectorSearchId1(c.conn, C.CString(uri1), C.CString(uri2), C.CString(uri3))
+	return ret
+}
+
+func (c HDTConnector) SearchID2(id1 uint, id2 uint, id3 uint) TripleIDIterator {
+	var ret TripleIDIterator
+	ret.iter = C.connectorSearchId2(c.conn, C.uint(id1), C.uint(id2), C.uint(id3))
+	return ret
+}
+
+func (c HDTConnector) IdToUri(id uint, t uint) string {
+	return C.GoString(C.connectorIdToUri(c.conn, C.uint(id), C.uint(t)))
+}
+
+func (c HDTConnector) UriToId(uri string, t uint) uint {
+	return uint(C.connectorUriToId(c.conn, C.CString(uri), C.uint(t)))
 }

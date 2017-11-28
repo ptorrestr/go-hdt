@@ -61,27 +61,35 @@ func (t TripleID) String() string {
 
 /* Define triple iterator*/
 type TripleIterator struct {
-	iter    C._TripleIterator
-	current C._Triple
+	iter C._TripleIterator
 }
 
 func (ti TripleIterator) Free() {
 	C.tripleIteratorFree(ti.iter)
 }
 
-func (ti TripleIterator) HasNext() bool {
-	ti.current = C.tripleIteratorNext(ti.iter)
-	if ti.current == nil {
-		return false
+func (ti TripleIterator) Get(n uint) []Triple {
+	var ret []Triple
+	ret = make([]Triple, n) //if cap is ommited, the default is "n"
+	var i uint
+	for i = 0; i < n; i = i + 1 {
+		var i_tri Triple
+		i_tri.triple = C.tripleIteratorNext(ti.iter)
+		ret[i] = i_tri
 	}
-	return true
+	return ret
 }
 
-func (ti TripleIterator) Next() Triple {
-	var ret Triple
-	ret.triple = C.tripleIteratorNext(ti.iter)
-	/*var ret Triple
-	ret.triple = ti.current*/
+func (ti TripleIterator) GetAll() []Triple {
+	var ret []Triple
+	for true {
+		var i_tri Triple
+		i_tri.triple = C.tripleIteratorNext(ti.iter)
+		if i_tri.triple == nil {
+			break
+		}
+		ret = append(ret, i_tri)
+	}
 	return ret
 }
 
@@ -94,9 +102,28 @@ func (ti TripleIDIterator) Free() {
 	C.tripleIDIteratorFree(ti.iter)
 }
 
-func (ti TripleIDIterator) Next() TripleID {
-	var ret TripleID
-	ret.triple = C.tripleIDIteratorNext(ti.iter)
+func (ti TripleIDIterator) Get(n uint) []TripleID {
+	var ret []TripleID
+	ret = make([]TripleID, n)
+	var i uint
+	for i = 0; i < n; i = i + 1 {
+		var i_tri TripleID
+		i_tri.triple = C.tripleIDIteratorNext(ti.iter)
+		ret[i] = i_tri
+	}
+	return ret
+}
+
+func (ti TripleIDIterator) GetAll() []TripleID {
+	var ret []TripleID
+	for true {
+		var i_tri TripleID
+		i_tri.triple = C.tripleIDIteratorNext(ti.iter)
+		if i_tri.triple == nil {
+			break
+		}
+		ret = append(ret, i_tri)
+	}
 	return ret
 }
 

@@ -2,6 +2,7 @@ package hdt
 
 import (
 	"github.com/op/go-logging"
+	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
 	"os"
@@ -61,7 +62,13 @@ func TestMain(m *testing.M) {
 func TestShouldIterateHDTFileGettingUrls(t *testing.T) {
 	hdtMap := OpenHDT("./test.hdt")
 	it := hdtMap.Search("", "", "")
-	//it.HasNext()
-	obj := it.Next()
-	log.Info(obj)
+	sl := it.Get(10)
+	assert.Equal(t, len(sl), 10, "Get 10 elements from hdt")
+}
+
+func TestShouldIterate(t *testing.T) {
+	hdtMap := OpenHDT("./test.hdt")
+	it := hdtMap.Search("", "", "")
+	sl := it.GetAll()
+	assert.Equal(t, len(sl), 100656, "Get everything from hdt")
 }

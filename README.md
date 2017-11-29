@@ -40,4 +40,5 @@ If it was not installed in the standard folders, then you need to use `PKG_CONFI
 
 	$ PKG_CONFIG_PATH=/my/hdt/lib/pkgconfig go run
 
-
+Be aware that the C objects created during the executing have to be manually deleted.
+This can be archived by executing the function `Free()` for each type associated to this package.

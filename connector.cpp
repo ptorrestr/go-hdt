@@ -33,9 +33,9 @@ CxxConnector::search_id(const string& uri1, const string& uri2, const string& ur
 	TripleString ts(uri1, uri2, uri3);
 	TripleID tid;
 	hdt -> getDictionary() -> tripleStringtoTripleID(ts, tid);
-	if ( ( tid.getSubject() == 0 && uri1.empty() ) ||
-			 ( tid.getPredicate() == 0 && uri2.empty() ) ||
-			 ( tid.getObject() == 0 && uri3.empty() ) )
+	if ( ( tid.getSubject() == 0 && !uri1.empty() ) ||
+			 ( tid.getPredicate() == 0 && !uri2.empty() ) ||
+			 ( tid.getObject() == 0 && !uri3.empty() ) )
 	{
 		// If couldn't found the uris, return empty iterator
 		return new CxxTripleIDIterator(new IteratorTripleID() );

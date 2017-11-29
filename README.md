@@ -8,9 +8,9 @@ Make sure you have a fresh Go environment. Also, you will need a C++ compiler.
 This project requires a fresh version of HDT. You need to use the develop branch. Installed in your local machine.
 If it is not installe in the standard folders, you will need to provide the folder to Go using `PKG_CONFIG_PATH`
 
-The dependencies of this project can be installed:
+The dependencies of this project can be installed using [dep](https://github.com/golang/dep):
 
-	$
+	$ dep ensure
 
 Then you can test
 

@@ -57,7 +57,11 @@ func TestMain(m *testing.M) {
 		log.Fatal(err)
 	}
 	retCode := m.Run()
-	After()
+	err = After()
+	if err != nil {
+		log.Error("After function failed")
+		log.Fatal(err)
+	}
 	os.Exit(retCode)
 }
 

@@ -179,3 +179,18 @@ func TestShouldTransformUrlIntoId(t *testing.T) {
 	assert.Equal(t, triple.getObject(), o_uri)
 	it.Free()
 }
+
+func TestShouldGetOutgoingNeighboursForId(t *testing.T) {
+	sl := hdtMap.NeighboursOut(1)
+	assert.Equal(t, 1, len(sl))
+}
+
+func TestShouldGetIncomingNeighboursForId(t *testing.T) {
+	sl := hdtMap.NeighboursIn(1)
+	assert.Equal(t, 2027, len(sl))
+}
+
+func TestShouldGetNeighboursForId(t *testing.T) {
+	sl := hdtMap.Neighbours(1)
+	assert.Equal(t, 2028, len(sl))
+}

@@ -1,6 +1,7 @@
 package hdt
 
 // #cgo pkg-config: hdt
+// #cgo CFLAGS: -I${SRCDIR}/include
 // #include "triple.h"
 // #include "tripleID.h"
 // #include "tripleIterator.h"
@@ -181,4 +182,42 @@ func (c HDTConnector) IdToUri(id uint, t TripleRole) string {
 
 func (c HDTConnector) UriToId(uri string, t TripleRole) uint {
 	return uint(C.connectorUriToId(c.conn, C.CString(uri), C.uint(t)))
+}
+
+func (c HDTConnector) NeighboursOut(id uint) []uint {
+	it := c.SearchID2(id, 0, 0)
+	var ret []uint
+	for true {
+		var i_tri TripleID
+		i_tri.triple = C.tripleIDIteratorNext(it.iter)
+		if i_tri.triple == nil {
+			break
+		}
+		ret = append(ret, i_tri.getObject())
+		i_tri.Free()
+	}
+	it.Free()
+	return ret
+}
+
+func (c HDTConnector) NeighboursIn(id uint) []uint {
+	it := c.SearchID2(0, 0, id)
+	var ret []uint
+	for true {
+		var i_tri TripleID
+		i_tri.triple = C.tripleIDIteratorNext(it.iter)
+		if i_tri.triple == nil {
+			break
+		}
+		ret = append(ret, i_tri.getSubject())
+		i_tri.Free()
+	}
+	it.Free()
+	return ret
+}
+
+func (c HDTConnector) Neighbours(id uint) []uint {
+	in := c.NeighboursIn(id)
+	out := c.NeighboursOut(id)
+	return append(in, out...)
 }
